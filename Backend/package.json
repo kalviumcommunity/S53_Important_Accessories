@@ -2,7 +2,7 @@
   "name": "s53_important_accessories",
   "version": "1.0.0",
   "description": "This Project is about a list of important Accessories that people use in their Daily Lives. It is priority list arranged in a manner that differs from person to person.",
-  "main": "backend/server.js",
+  "main": "Backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
