@@ -13,6 +13,11 @@ app.get('/', (req, res)=>{
     res.send(content)
 });
 
+app.use(express.json())
+
+const accessoryrouter = require('./routers/accessoryrouter.js')
+app.use('/accessory', accessoryrouter)
+
 app.get('/ping', (req, res)=>{
     res.send({"message" : "pong"})
 })
