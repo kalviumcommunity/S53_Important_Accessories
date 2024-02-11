@@ -1,11 +1,30 @@
+import { useState, useEffect } from 'react';
 import { Card } from 'flowbite-react';
 import { Input } from '../assets/Shadcn UI Components/Input';
 import * as React from 'react';
 // import Rating from '@mui/material/Rating';
 import { Rating } from '@mantine/core';
-
+import axios from "axios";
 
 const Cards = () => {
+
+    const [items, SetItems] = useState([])
+
+    const fetchData = ()=> {
+        axios.get("https://s53-important-accessories.onrender.com/accessory")
+        .then((res)=> {
+            this.SetItems(res.data)
+            console.log(res.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    useEffect(()=>{
+        fetchData();
+    },[])
+
     return (
         <>
             <Input className="w-[80vw] md:w-[20vw]" type={"search"} placeholder="🔍  Search Items" />
@@ -18,7 +37,7 @@ const Cards = () => {
                         Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
                     </p>
                     <button className="btn btn-primary">Buy Now</button>
-                    {/* <Rating name="half-rating" defaultValue={2.5} precision={0.5} /> */}
+                    <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
                 </Card>
             </div>
         </>
