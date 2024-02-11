@@ -5,7 +5,7 @@ const port = 3000;
 const mongoose = require('mongoose');
 const {connectToDB, isConnected} = require('./db.js');
 const cors = require("cors");
-app.use("cors")
+app.use(cors())
 
 //Connect to MongoDB
 connectToDB();
