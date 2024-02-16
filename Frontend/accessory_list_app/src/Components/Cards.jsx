@@ -31,7 +31,7 @@ const Cards = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 m-[auto] gap-[3vmin] bg-amber-100 text-center p-5'>
         {items.map((items)=> {
             return (
-                <Card className="max-w-sm m-[auto] glass bg-yellow-200 min-h-[45vh]" imgSrc={items.image} horizontal>
+                <Card className="max-w-sm m-[auto] glass bg-yellow-200 min-h-[45vh]" key={items._id} imgSrc={items.image} horizontal>
                     <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                         {items.category}
                     </h5>
