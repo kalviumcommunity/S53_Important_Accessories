@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -15,7 +15,7 @@ import {
 import { Input } from "../assets/Shadcn UI Components/Input"
 import { Textarea } from "../assets/Shadcn UI Components/textarea"
 import axios from "axios"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const formSchema = z.object({
   name: z.string().min(3).max(35),
@@ -28,8 +28,34 @@ const formSchema = z.object({
   amazonBuyLink: z.string().url()
 })
 
-const ItemsForm = () => {
+const UpdateItemForm = () => {
   const navigate = useNavigate();
+  const {id} = useParams();
+  const [name, setName] = useState("")
+  const [category, setCategory] = useState("")
+  const [description, setDescription] = useState("")
+  const [image, setImage] = useState("")
+  const [averageBuyPrice, setAverageBuyPrice] = useState("")
+  const [amazonBuyLink, setAmazonBuyLink] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  useEffect(()=>{
+    setLoading(true);
+    axios.get(`https://s53-important-accessories.onrender.com/accessory/${id}`)
+    .then((res)=>{
+      setName(res.data.name);
+      setCategory(res.data.category);
+      setDescription(res.data.description);
+      setImage(res.data.image);
+      setAverageBuyPrice(res.data.averageBuyPrice);
+      setAmazonBuyLink(res.data.amazonBuyLink);
+      setLoading(false);
+    })
+    .catch((err)=>{
+      setLoading(false);
+      console.log(err);
+    });
+  },[])
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -46,7 +72,7 @@ const ItemsForm = () => {
   async function onSubmit(values) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-      await axios.post("https://s53-important-accessories.onrender.com/accessory", values)
+      await axios.patch(`https://s53-important-accessories.onrender.com/accessory/${id}`, values)
       .then(()=>{
         console.log(values);
         navigate('/items')
@@ -69,7 +95,7 @@ const ItemsForm = () => {
               <FormItem>
                 <FormLabel>Name of Item</FormLabel>
                 <FormControl>
-                  <Input placeholder="Name..." {...field} />
+                  <Input value={name} onChange={(e)=>setName(e.target.value)} {...field} />
                 </FormControl>
                 <FormDescription>
                   Please provide name of the item.
@@ -86,7 +112,7 @@ const ItemsForm = () => {
               <FormItem>
                 <FormLabel>Category of your Item</FormLabel>
                 <FormControl>
-                  <Input placeholder="Keyboard / Mouse / ?" {...field} />
+                  <Input value={category} onChange={(e)=>setCategory(e.target.value)} {...field} />
                 </FormControl>
                 <FormDescription>
                   What would you call item in general ?
@@ -104,7 +130,7 @@ const ItemsForm = () => {
                 <FormLabel>Description</FormLabel>
                 <FormControl>
                   {/* <Input placeholder="Name..." {...field}/> */}
-                  <Textarea placeholder="It is a wonderful item used for..." {...field}/>
+                  <Textarea value={description} onChange={(e)=>setDescription(e.target.value)} {...field}/>
                 </FormControl>
                 <FormDescription>
                   Describe what purpose, the serves...
@@ -121,7 +147,7 @@ const ItemsForm = () => {
               <FormItem>
                 <FormLabel>Average Buy Price</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input value={averageBuyPrice} onChange={(e)=>setAverageBuyPrice(e.target.value)} {...field} />
                 </FormControl>
                 <FormDescription>
                   What would you call item in general ?
@@ -138,7 +164,7 @@ const ItemsForm = () => {
               <FormItem>
                 <FormLabel>Image Link of item</FormLabel>
                 <FormControl>
-                  <Input placeholder="unsplash.com/beautifullImage" {...field} />
+                  <Input value={image} onChange={(e)=>setImage(e.target.value)} {...field} />
                 </FormControl>
                 <FormMessage className="text-rose-500" />
               </FormItem>
@@ -152,7 +178,7 @@ const ItemsForm = () => {
               <FormItem>
                 <FormLabel>Link to Purchase Item</FormLabel>
                 <FormControl>
-                  <Input placeholder="amazon.com/greatItem" {...field} />
+                  <Input value={amazonBuyLink} onChange={(e)=>setAmazonBuyLink(e.target.value)} {...field} />
                 </FormControl>
                 <FormDescription>
                   What would you call item in general ?
@@ -168,4 +194,4 @@ const ItemsForm = () => {
   )
 }
 
-export default ItemsForm;
+export default UpdateItemForm;
