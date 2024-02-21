@@ -15,6 +15,17 @@ router.get('/', async (req, res)=>{
     }
 })
 
+router.get('/:id', async (req, res)=>{
+    try{
+        const id = req.params.id
+        const accessories = await Accessories.findOne({_id: id})
+        res.json(accessories)
+    } catch (error){
+        console.log("Error in process", error);
+        res.send("Error with code: ", error)
+    }
+})
+
 router.post('/', async (req, res)=>{
     const accessory = new Accessories({
         name: req.body.name,
@@ -42,9 +53,9 @@ router.post('/', async (req, res)=>{
 //         console.log(error);
 //     }
 // })
-router.delete('/:name', async (req, res)=>{
+router.delete('/:id', async (req, res)=>{
     try{
-        let result = await Accessories.deleteOne({name: req.params.name})
+        let result = await Accessories.deleteOne({_id: req.params.id})
         res.json(result)
         console.log(result, "deleted from database");
     } catch (error){
@@ -52,9 +63,9 @@ router.delete('/:name', async (req, res)=>{
     }
 })
 
-router.patch('/:name', async(req, res)=> {
+router.patch('/:id', async(req, res)=> {
     try{
-        let accessory = await Accessories.findOne({"name": req.params.name})
+        let accessory = await Accessories.findOne({_id: req.params.id})
 
         if(req.body.name) accessory.name = req.body.name;
         if(req.body.category) accessory.category = req.body.category;
