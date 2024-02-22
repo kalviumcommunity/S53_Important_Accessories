@@ -25,7 +25,7 @@ const formSchema = z.object({
   averageBuyPrice: z.string().min(3, {
     message: "It may not be free 😎"
   }),
-  amazonBuyLink: z.string().url()
+  amazonLink: z.string().url()
 })
 
 const ItemsForm = () => {
@@ -39,7 +39,7 @@ const ItemsForm = () => {
       description: "",
       image: "",
       averageBuyPrice: "₹ ",
-      amazonBuyLink: ""
+      amazonLink: ""
     },
   })
 
@@ -147,7 +147,7 @@ const ItemsForm = () => {
 
 <FormField
             control={form.control}
-            name="amazonBuyLink"
+            name="amazonLink"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Link to Purchase Item</FormLabel>
