@@ -25,64 +25,66 @@ const formSchema = z.object({
   averageBuyPrice: z.string().min(3, {
     message: "It may not be free 😎"
   }),
-  amazonBuyLink: z.string().url()
+  amazonLink: z.string().url()
 })
 
 const UpdateItemForm = () => {
   const navigate = useNavigate();
-  const {id} = useParams();
+  const { id } = useParams();
   const [name, setName] = useState("")
   const [category, setCategory] = useState("")
   const [description, setDescription] = useState("")
   const [image, setImage] = useState("")
   const [averageBuyPrice, setAverageBuyPrice] = useState("")
-  const [amazonBuyLink, setAmazonBuyLink] = useState("")
+  const [amazonLink, setAmazonLink] = useState("")
   const [loading, setLoading] = useState(false)
 
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true);
     axios.get(`https://s53-important-accessories.onrender.com/accessory/${id}`)
-    .then((res)=>{
-      setName(res.data.name);
-      setCategory(res.data.category);
-      setDescription(res.data.description);
-      setImage(res.data.image);
-      setAverageBuyPrice(res.data.averageBuyPrice);
-      setAmazonBuyLink(res.data.amazonBuyLink);
-      setLoading(false);
-    })
-    .catch((err)=>{
-      setLoading(false);
-      console.log(err);
-    });
-  },[])
+      .then((res) => {
+        // setName(res.data.name);
+        console.log(res.data)
+        form.setValue("name", res.data.name);
+        form.setValue("category", res.data.category);
+        form.setValue("description", res.data.description);
+        form.setValue("image", res.data.image);
+        form.setValue("averageBuyPrice", res.data.averageBuyPrice);
+        form.setValue("amazonLink", res.data.amazonLink);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  }, [])
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      category: "",
-      description: "",
-      image: "",
-      averageBuyPrice: "₹ ",
-      amazonBuyLink: ""
+      name: name,
+      category: category,
+      description: description,
+      image: image,
+      averageBuyPrice: averageBuyPrice,
+      amazonLink: amazonLink
     },
   })
 
   async function onSubmit(values) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-      await axios.patch(`https://s53-important-accessories.onrender.com/accessory/${id}`, values)
-      .then(()=>{
+    await axios.patch(`https://s53-important-accessories.onrender.com/accessory/${id}`, values)
+      .then(() => {
         console.log(values);
         navigate('/items')
       })
-      .catch((err)=>{
+      .catch((err) => {
         console.log(err)
       })
 
-    }
-  
+  }
+
 
   return (
     <div className='bg-[#E8D5B5] p-[3vmin]'>
@@ -95,7 +97,7 @@ const UpdateItemForm = () => {
               <FormItem>
                 <FormLabel>Name of Item</FormLabel>
                 <FormControl>
-                  <Input value={name} onChange={(e)=>setName(e.target.value)} {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormDescription>
                   Please provide name of the item.
@@ -112,7 +114,7 @@ const UpdateItemForm = () => {
               <FormItem>
                 <FormLabel>Category of your Item</FormLabel>
                 <FormControl>
-                  <Input value={category} onChange={(e)=>setCategory(e.target.value)} {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormDescription>
                   What would you call item in general ?
@@ -130,7 +132,7 @@ const UpdateItemForm = () => {
                 <FormLabel>Description</FormLabel>
                 <FormControl>
                   {/* <Input placeholder="Name..." {...field}/> */}
-                  <Textarea value={description} onChange={(e)=>setDescription(e.target.value)} {...field}/>
+                  <Textarea {...field} />
                 </FormControl>
                 <FormDescription>
                   Describe what purpose, the serves...
@@ -140,14 +142,14 @@ const UpdateItemForm = () => {
             )}
           />
 
-<FormField
+          <FormField
             control={form.control}
             name="averageBuyPrice"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Average Buy Price</FormLabel>
                 <FormControl>
-                  <Input value={averageBuyPrice} onChange={(e)=>setAverageBuyPrice(e.target.value)} {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormDescription>
                   What would you call item in general ?
@@ -164,21 +166,21 @@ const UpdateItemForm = () => {
               <FormItem>
                 <FormLabel>Image Link of item</FormLabel>
                 <FormControl>
-                  <Input value={image} onChange={(e)=>setImage(e.target.value)} {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage className="text-rose-500" />
               </FormItem>
             )}
           />
 
-<FormField
+          <FormField
             control={form.control}
-            name="amazonBuyLink"
+            name="amazonLink"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Link to Purchase Item</FormLabel>
                 <FormControl>
-                  <Input value={amazonBuyLink} onChange={(e)=>setAmazonBuyLink(e.target.value)} {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormDescription>
                   What would you call item in general ?
