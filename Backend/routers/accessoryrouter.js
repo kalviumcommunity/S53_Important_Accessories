@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Accessories = require("../models/accessorymodel");
 const { connectToDB } = require('../db')
+const {ValidateProduct} = require('../validators/productValidator')
 
 // connectToDB();
 
@@ -27,6 +28,15 @@ router.get('/:id', async (req, res)=>{
 })
 
 router.post('/', async (req, res)=>{
+
+    const validationResult = ValidateProduct(req.body);
+    const {error} = validationResult
+
+    if(error) {
+        console.log(error);
+        return res.send(error.details);
+    }
+
     const accessory = new Accessories({
         name: req.body.name,
         category: req.body.category,
@@ -64,6 +74,15 @@ router.delete('/:id', async (req, res)=>{
 })
 
 router.patch('/:id', async(req, res)=> {
+
+    const validationResult = ValidateProduct(req.body);
+    const {error} = validationResult
+
+    if(error) {
+        console.log(error);
+        return res.send(error.details);
+    }
+    
     try{
         let accessory = await Accessories.findOne({_id: req.params.id})
 
