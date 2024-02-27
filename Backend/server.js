@@ -20,6 +20,9 @@ app.use(express.json())
 const accessoryrouter = require('./routers/accessoryrouter.js')
 app.use('/accessory', accessoryrouter)
 
+const userRouter = require('./routers/userRouter.js')
+app.use('/user', userRouter)
+
 app.get('/ping', (req, res)=>{
     res.send({"message" : "pong"})
 })
