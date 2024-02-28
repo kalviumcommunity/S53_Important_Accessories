@@ -1,4 +1,5 @@
 import { Button } from 'flowbite-react';
+import { Link } from "react-router-dom";
 const Navbar = ()=> {
     return (
         <div>
@@ -7,7 +8,9 @@ const Navbar = ()=> {
                 <p>Home</p>
                 <p>List</p>
                 <p>About</p>
+                <Link to={'/signup'}>
                 <button className="btn btn-xs sm:btn-sm md:btn-md bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">Sign-In</button>
+                </Link>
             </div>
         </div>
         </div>

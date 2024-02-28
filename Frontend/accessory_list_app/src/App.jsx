@@ -11,6 +11,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import UpdateItemForm from './Components/UpdateItemForm'
+import UserSignUpForm from './Components/UserSignUpForm'
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/items" element={<Cards />}/>
         <Route path="/items-form" element={<ItemsForm />}/>
         <Route path="/update/:id" element={<UpdateItemForm />}/>
+        <Route path='/signup' element={<UserSignUpForm />}/>
       </Routes>
     </>
   )
