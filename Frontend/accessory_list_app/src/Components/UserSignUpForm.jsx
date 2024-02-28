@@ -44,7 +44,7 @@ const UserSignUpForm = () => {
     // ✅ This will be type-safe and validated.
     await axios
       .post(
-        "http://localhost:3000/user/signup",
+        "https://s53-important-accessories.onrender.com/user/signup",
         values
       )
       .then((res) => {
