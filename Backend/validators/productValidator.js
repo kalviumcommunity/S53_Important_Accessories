@@ -5,6 +5,7 @@ const validator = (schema)=> (payload) => {
 }
 
 const productSchema = Joi.object({
+    user_id: Joi.string(),
     name: Joi.string().min(3).max(35),
     category: Joi.string().required().min(3).max(20),
     description: Joi.string().min(10),

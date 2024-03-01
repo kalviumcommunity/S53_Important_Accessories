@@ -40,7 +40,7 @@ router.post('/', async (req, res)=>{
     }
 
     const accessory = new Accessories({
-        user_id: req.user._id,
+        user_id: req.user.id,
         name: req.body.name,
         category: req.body.category,
         description: req.body.description,
@@ -54,7 +54,7 @@ router.post('/', async (req, res)=>{
         res.json(acc1);
         console.log(acc1, "added to the data");
     } catch(error) {
-        res.send("Error with code", error)
+        res.send(error)
     }
 })
 
