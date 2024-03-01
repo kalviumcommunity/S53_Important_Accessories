@@ -5,11 +5,12 @@ const jwt = require("jsonwebtoken");
 require('dotenv').config();
 const bcrypt = require("bcrypt");
 const cookieparser = require("cookie-parser")
+const asyncHandler = require('express-async-handler')
 const app=express();
 
 app.use(cookieparser());
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
@@ -40,11 +41,11 @@ router.post("/signup", async (req, res) => {
     res.status(400);
     throw new Error("Invalid user data");
   }
-});
+}));
 
 
 
-router.post("/login", async (req, res) => {
+router.post("/login", asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
@@ -65,14 +66,14 @@ router.post("/login", async (req, res) => {
         res.status(400);
         throw new Error("Invalid credentials");
     }
-}); 
+})); 
 
-router.post("/logout", async (req, res) => {
+router.post("/logout", asyncHandler(async (req, res) => {
   res.cookie("user", "", {
     httpOnly: true,
     expires: new Date(0)
   });
   res.json({message: "user logged out"})
-});
+}));
 
 module.exports = router;
