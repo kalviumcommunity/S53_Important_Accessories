@@ -17,7 +17,7 @@ router.get('/', async (req, res)=>{
     }
 })
 
-router.use(validateToken);
+// router.use(validateToken);
 router.get('/:id', async (req, res)=>{
     try{
         const id = req.params.id
