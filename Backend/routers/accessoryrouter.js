@@ -17,7 +17,7 @@ router.get('/', async (req, res)=>{
     }
 })
 
-// router.use(validateToken);
+router.use(validateToken);
 router.get('/:id', async (req, res)=>{
     try{
         const id = req.params.id
@@ -40,6 +40,7 @@ router.post('/', async (req, res)=>{
     }
 
     const accessory = new Accessories({
+        user_id: req.user._id,
         name: req.body.name,
         category: req.body.category,
         description: req.body.description,
@@ -88,6 +89,7 @@ router.patch('/:id', async(req, res)=> {
     try{
         let accessory = await Accessories.findOne({_id: req.params.id})
 
+        if(req.user._id)accessory.user_id = req.user._id;
         if(req.body.name) accessory.name = req.body.name;
         if(req.body.category) accessory.category = req.body.category;
         if(req.body.description) accessory.description = req.body.description;
