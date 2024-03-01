@@ -3,6 +3,7 @@ const router = express.Router()
 const Accessories = require("../models/accessorymodel");
 const { connectToDB } = require('../db')
 const {ValidateProduct} = require('../validators/productValidator')
+const validateToken = require('../validators/validateJwtToken')
 
 // connectToDB();
 
@@ -16,6 +17,7 @@ router.get('/', async (req, res)=>{
     }
 })
 
+router.use(validateToken);
 router.get('/:id', async (req, res)=>{
     try{
         const id = req.params.id

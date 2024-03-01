@@ -49,7 +49,7 @@ const UserSignUpForm = () => {
       )
       .then((res) => {
         console.log(res.data);
-        document.cookie = `token=${res.data.token}`;
+        document.cookie = `token=${res.data.accessToken}`;
         // console.log(values);
         // navigate('/items')
       })
