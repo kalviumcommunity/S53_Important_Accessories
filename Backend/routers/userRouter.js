@@ -16,8 +16,7 @@ router.post("/signup", asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    res.status(400);
-    throw new Error("User already exists");
+    res.status(400).send("User already Exists");
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -38,8 +37,7 @@ router.post("/signup", asyncHandler(async (req, res) => {
       accessToken: accessToken,
     });
   } else {
-    res.status(400);
-    throw new Error("Invalid user data");
+    res.status(400).send("Invalid user credentials")
   }
 }));
 
@@ -63,8 +61,7 @@ router.post("/login", asyncHandler(async (req, res) => {
               });
         }
     } else {
-        res.status(400);
-        throw new Error("Invalid credentials");
+        res.status(400).send("Invalid Credentials")
     }
 })); 
 
