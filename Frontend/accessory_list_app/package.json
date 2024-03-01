@@ -25,6 +25,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
+    "express-async-handler": "^1.2.0",
     "flowbite-react": "^0.7.2",
     "framer-motion": "^11.0.3",
     "react": "^18.2.0",
