@@ -8,14 +8,10 @@ const cookieparser = require("cookie-parser")
 const asyncHandler = require('express-async-handler')
 const app=express();
 
-router.get('/', async(req, res)=> {
-  try{
-    const users = User.find();
-    res.json(users);
-  } catch (err){
-    console.log(err);
-  }
-})
+router.get('/', asyncHandler(async( req,res)=>{
+  const users = await User.find({});
+  res.json(users);
+}))
 
 app.use(cookieparser());
 
