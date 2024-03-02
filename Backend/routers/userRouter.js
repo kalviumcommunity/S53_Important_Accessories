@@ -8,6 +8,15 @@ const cookieparser = require("cookie-parser")
 const asyncHandler = require('express-async-handler')
 const app=express();
 
+router.get('/', async(req, res)=> {
+  try{
+    const users = User.find();
+    res.json(users);
+  } catch (err){
+    console.log(err);
+  }
+})
+
 app.use(cookieparser());
 
 router.post("/signup", asyncHandler(async (req, res) => {

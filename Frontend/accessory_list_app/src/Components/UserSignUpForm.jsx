@@ -27,7 +27,7 @@ const formSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters long" })
 });
 
-const UserSignUpForm = () => {
+const UserSignUpForm = ({setUser}) => {
   const navigate = useNavigate();
 
   const form = useForm({
@@ -50,6 +50,7 @@ const UserSignUpForm = () => {
       .then((res) => {
         console.log(res.data);
         document.cookie = `token=${res.data.accessToken}`;
+        setUser(res.data._id)
         // console.log(values);
         // navigate('/items')
       })

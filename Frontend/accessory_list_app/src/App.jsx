@@ -16,6 +16,7 @@ import UserSignUpForm from './Components/UserSignUpForm'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [user, setUser] = useState("")
 
   return (
     <>
@@ -24,9 +25,9 @@ function App() {
       <CardsContainer/>
       <Routes>
         <Route path="/items" element={<Cards />}/>
-        <Route path="/items-form" element={<ItemsForm />}/>
+        <Route path="/items-form" element={<ItemsForm user={user}/>}/>
         <Route path="/update/:id" element={<UpdateItemForm />}/>
-        <Route path='/signup' element={<UserSignUpForm />}/>
+        <Route path='/signup' element={<UserSignUpForm setUser={setUser}/>}/>
       </Routes>
     </>
   )

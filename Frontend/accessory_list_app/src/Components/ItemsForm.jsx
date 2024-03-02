@@ -1,8 +1,8 @@
-import React from 'react'
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { Button } from "../assets/Shadcn UI Components/button"
+import React from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "../assets/Shadcn UI Components/button";
 import {
   Form,
   FormControl,
@@ -11,11 +11,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../assets/Shadcn UI Components/form"
-import { Input } from "../assets/Shadcn UI Components/Input"
-import { Textarea } from "../assets/Shadcn UI Components/textarea"
-import axios from "axios"
-import { useNavigate } from 'react-router-dom';
+} from "../assets/Shadcn UI Components/form";
+import { Input } from "../assets/Shadcn UI Components/Input";
+import { Textarea } from "../assets/Shadcn UI Components/textarea";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
   name: z.string().min(3).max(35),
@@ -23,12 +23,12 @@ const formSchema = z.object({
   description: z.string().min(10),
   image: z.string().url(),
   averageBuyPrice: z.string().min(3, {
-    message: "It may not be free 😎"
+    message: "It may not be free 😎",
   }),
-  amazonLink: z.string().url()
-})
+  amazonLink: z.string().url(),
+});
 
-const ItemsForm = () => {
+const ItemsForm = ({ user }) => {
   const navigate = useNavigate();
 
   const form = useForm({
@@ -39,29 +39,40 @@ const ItemsForm = () => {
       description: "",
       image: "",
       averageBuyPrice: "₹ ",
-      amazonLink: ""
+      amazonLink: "",
     },
-  })
+  });
 
   async function onSubmit(values) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-      await axios.post("https://s53-important-accessories.onrender.com/accessory", values)
-      .then(()=>{
-        console.log(values);
-        navigate('/items')
-      })
-      .catch((err)=>{
-        console.log(err)
-      })
+    console.log(user);
+    values.user_id = user;
+    console.log(values);
+    console.log(values.user_id);
 
+    try {
+      console.log("trying");
+      const response = await axios.post(
+        "https://s53-important-accessories.onrender.com/accessory",
+        values
+      );
+
+      console.log("response: ", response);
+      console.log(values);
+      navigate("/items");
+    } catch (err) {
+      console.log(err);
     }
-  
+  }
 
   return (
-    <div className='bg-[#E8D5B5] p-[3vmin]'>
+    <div className="bg-[#E8D5B5] p-[3vmin]">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[90vw] sm:w-[70vw] p-[10vmin] m-[auto] glass">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 w-[90vw] sm:w-[70vw] p-[10vmin] m-[auto] glass"
+        >
           <FormField
             control={form.control}
             name="name"
@@ -104,7 +115,10 @@ const ItemsForm = () => {
                 <FormLabel>Description</FormLabel>
                 <FormControl>
                   {/* <Input placeholder="Name..." {...field}/> */}
-                  <Textarea placeholder="It is a wonderful item used for..." {...field}/>
+                  <Textarea
+                    placeholder="It is a wonderful item used for..."
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
                   Describe what purpose, the serves...
@@ -114,7 +128,7 @@ const ItemsForm = () => {
             )}
           />
 
-<FormField
+          <FormField
             control={form.control}
             name="averageBuyPrice"
             render={({ field }) => (
@@ -138,14 +152,17 @@ const ItemsForm = () => {
               <FormItem>
                 <FormLabel>Image Link of item</FormLabel>
                 <FormControl>
-                  <Input placeholder="unsplash.com/beautifullImage" {...field} />
+                  <Input
+                    placeholder="unsplash.com/beautifullImage"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage className="text-rose-500" />
               </FormItem>
             )}
           />
 
-<FormField
+          <FormField
             control={form.control}
             name="amazonLink"
             render={({ field }) => (
@@ -161,11 +178,13 @@ const ItemsForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="text-white">Submit</Button>
+          <Button type="submit" className="text-white">
+            Submit
+          </Button>
         </form>
       </Form>
     </div>
-  )
-}
+  );
+};
 
 export default ItemsForm;
